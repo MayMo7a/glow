@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Meem Glow">
+<meta name="theme-color" content="#32C8D9">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<title>✨ Meem's Glow Up</title>
+<style>
+:root{
+  --bg:#88E8F2;--teal:#32C8D9;--yell:#F2D22E;--gold:#BF9106;
+  --sand:#F2C288;--dark:#1A1A2E;--card:#FFFFFF;--card2:#F0FBFC;
+  --text:#0D3B42;--muted:#4A8A93;--r:16px;--rs:10px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  background:var(--bg);min-height:100vh;color:var(--text);overflow-x:hidden}
+.top{background:var(--teal);padding:52px 18px 14px;text-align:center;
+  position:sticky;top:0;z-index:200;box-shadow:0 2px 12px rgba(50,200,217,.3)}
+.top h1{color:var(--dark);font-size:20px;font-weight:900}
+.top .sub{color:rgba(13,59,66,.6);font-size:11px;margin-top:2px}
+.dpill{background:rgba(13,59,66,.12);border-radius:20px;padding:4px 14px;
+  display:inline-block;margin-top:7px;color:var(--dark);font-size:12px;font-weight:700}
+.nav{display:flex;background:var(--dark);overflow-x:auto;scrollbar-width:none;
+  -webkit-overflow-scrolling:touch;position:sticky;top:110px;z-index:199}
+.nav::-webkit-scrollbar{display:none}
+.nb{flex:none;padding:11px 14px;border:none;background:transparent;
+  color:rgba(136,232,242,.55);font-size:12px;font-weight:700;cursor:pointer;
+  white-space:nowrap;border-bottom:3px solid transparent;transition:all .2s;font-family:inherit}
+.nb.on{color:var(--yell);border-bottom-color:var(--yell);background:rgba(242,210,46,.08)}
+.wrap{padding:14px;max-width:480px;margin:0 auto;padding-bottom:90px}
+.pg{display:none}.pg.on{display:block}
+.card{background:var(--card);border-radius:var(--r);padding:16px;margin-bottom:12px;
+  box-shadow:0 2px 16px rgba(50,200,217,.15);border:1px solid rgba(50,200,217,.2)}
+.ch{display:flex;align-items:center;gap:11px;margin-bottom:11px}
+.eb{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;
+  justify-content:center;font-size:21px;flex-shrink:0;background:rgba(50,200,217,.12)}
+.ct{font-size:15px;font-weight:800;color:var(--dark)}
+.cs{font-size:11px;color:var(--muted);margin-top:2px}
+.note{background:var(--card2);border-radius:var(--rs);padding:11px 13px;font-size:13px;
+  color:var(--dark);line-height:1.6;margin-bottom:8px;border:1px solid rgba(50,200,217,.15)}
+.area-note{background:rgba(191,145,6,.08);border-radius:var(--rs);padding:9px 13px;
+  font-size:12px;color:#5C3A00;line-height:1.55;margin-bottom:8px;
+  border:1px solid rgba(191,145,6,.2)}
+.area-note b{color:var(--gold)}
+.warn-note{background:rgba(242,210,46,.08);border-radius:var(--rs);padding:9px 13px;
+  font-size:12px;color:#6B5800;line-height:1.55;margin-bottom:8px;
+  border:1px solid rgba(242,210,46,.25)}
+.warn-note b{color:var(--gold)}
+.motiv{border-radius:var(--rs);padding:10px 13px;font-size:13px;line-height:1.6;
+  margin-bottom:8px;border-left:3px solid var(--yell);background:rgba(242,210,46,.07)}
+.motiv.ar{font-weight:800;direction:rtl;color:var(--gold);font-size:14px}
+.motiv.en{font-style:italic;color:#7A4A0E}
+.shdr{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;
+  padding:10px 2px 5px;color:var(--teal)}
+.scr{display:flex;align-items:flex-start;gap:10px;padding:9px 0;
+  border-bottom:1px solid rgba(50,200,217,.1)}
+.scr:last-child{border-bottom:none}
+.scb{width:27px;height:27px;border-radius:7px;border:2px solid rgba(50,200,217,.5);
+  background:white;cursor:pointer;flex-shrink:0;display:flex;align-items:center;
+  justify-content:center;transition:all .2s;margin-top:1px;font-size:13px}
+.scb.done{background:var(--teal);border-color:var(--teal);color:white}
+.scn{font-size:13px;font-weight:700;color:var(--dark);line-height:1.4}
+.scn.done{text-decoration:line-through;color:var(--muted)}
+.sct{font-size:11px;color:var(--muted);margin-top:2px}
+.pbar{height:12px;background:rgba(50,200,217,.15);border-radius:6px;overflow:hidden;margin:8px 0 4px}
+.pfill{height:100%;background:linear-gradient(90deg,var(--teal),var(--yell));
+  border-radius:6px;transition:width .5s}
+.ppct{font-size:24px;font-weight:900;color:var(--teal)}
+.cups{display:flex;flex-wrap:wrap;gap:7px;margin:10px 0}
+.cup{width:34px;height:42px;border-radius:0 0 9px 9px;
+  border:2px solid rgba(50,200,217,.4);background:rgba(50,200,217,.05);
+  cursor:pointer;display:flex;align-items:flex-end;overflow:hidden}
+.cup .fill{width:100%;background:linear-gradient(180deg,var(--bg),var(--teal));
+  height:0%;transition:height .3s}
+.cup.full .fill{height:100%}
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.si{background:var(--card2);border-radius:13px;padding:12px 8px;text-align:center;
+  cursor:pointer;transition:all .25s;border:2px solid rgba(50,200,217,.15)}
+.si.done{background:var(--teal);border-color:var(--dark)}
+.si.done .sn,.si.done .st{color:white}
+.se{font-size:22px;margin-bottom:3px}
+.sn{font-size:11px;font-weight:800;color:var(--dark);line-height:1.35}
+.st{font-size:10px;color:var(--muted);margin-top:2px}
+.tr{display:flex;align-items:center;justify-content:space-between;padding:10px 0;
+  border-bottom:1px solid rgba(50,200,217,.1)}
+.tr:last-child{border-bottom:none}
+.tl{font-size:13px;color:var(--dark);font-weight:600}
+.tt{font-size:11px;color:var(--muted);margin-top:1px}
+.tog{position:relative;width:48px;height:28px;flex-shrink:0}
+.tog input{opacity:0;width:0;height:0}
+.sl{position:absolute;inset:0;background:rgba(50,200,217,.25);
+  border-radius:28px;cursor:pointer;transition:.3s}
+.sl:before{content:"";position:absolute;height:20px;width:20px;left:4px;bottom:4px;
+  background:white;border-radius:50%;transition:.3s;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+.tog input:checked+.sl{background:var(--teal)}
+.tog input:checked+.sl:before{transform:translateX(20px)}
+.popup{display:none;position:fixed;inset:0;background:rgba(13,59,66,.75);z-index:999;
+  align-items:center;justify-content:center;padding:20px}
+.popup.show{display:flex;animation:fi .25s}
+.pbox{background:white;border-radius:24px;padding:26px 22px;text-align:center;
+  max-width:330px;width:100%;box-shadow:0 24px 60px rgba(50,200,217,.3);
+  animation:su .3s;border:2px solid var(--teal)}
+.pem{font-size:52px;margin-bottom:10px}
+.ptit{font-size:20px;font-weight:900;color:var(--dark);margin-bottom:5px}
+.ptm{font-size:13px;color:var(--muted);margin-bottom:12px}
+.pmsg{font-size:14px;font-weight:700;margin-bottom:16px;line-height:1.6;padding:12px;
+  border-radius:12px;background:rgba(50,200,217,.08)}
+.pmsg.ar{direction:rtl;color:var(--gold)}
+.pmsg.en{font-style:italic;color:#7A4A0E}
+.pok{background:var(--teal);color:white;border:none;border-radius:13px;padding:13px;
+  font-size:15px;font-weight:800;cursor:pointer;width:100%;font-family:inherit;margin-bottom:8px}
+.pok:active{background:var(--dark)}
+.psn{background:rgba(50,200,217,.1);color:var(--dark);border:1px solid rgba(50,200,217,.3);
+  border-radius:13px;padding:9px;font-size:13px;font-weight:700;cursor:pointer;
+  width:100%;font-family:inherit}
+.qcard{background:var(--dark);border-radius:var(--r);padding:16px;
+  text-align:center;margin-bottom:12px}
+.qa{font-size:17px;font-weight:800;direction:rtl;margin-bottom:5px;color:var(--yell)}
+.qe{font-size:12px;color:rgba(136,232,242,.8);line-height:1.55}
+.nxt{background:var(--dark);border-radius:var(--r);padding:15px;margin-bottom:12px}
+.nl{color:rgba(136,232,242,.6);font-size:11px;font-weight:800;
+  text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.nt{color:var(--yell);font-size:22px;font-weight:900}
+.ns{color:rgba(136,232,242,.8);font-size:13px;margin-top:3px}
+.rest{background:rgba(242,210,46,.1);border-radius:var(--r);padding:22px;
+  text-align:center;margin-bottom:12px;border:2px solid rgba(242,210,46,.3)}
+.rest h2{color:var(--gold);font-size:18px;font-weight:900}
+.rest p{color:var(--dark);font-size:13px;margin-top:7px;line-height:1.6}
+.wknd{background:rgba(50,200,217,.1);border-radius:var(--r);padding:14px;
+  text-align:center;margin-bottom:12px;border:1px solid rgba(50,200,217,.3)}
+.wknd h3{color:var(--teal);font-size:15px;font-weight:900;margin-bottom:4px}
+.wknd p{color:var(--dark);font-size:13px;line-height:1.6}
+.btn{padding:13px;border-radius:12px;border:none;font-size:14px;font-weight:800;
+  cursor:pointer;font-family:inherit;display:block;width:100%;transition:all .2s}
+.bteal{background:var(--teal);color:white}.bteal:active{background:var(--dark)}
+.byell{background:var(--yell);color:var(--dark)}
+.bred{background:rgba(220,50,50,.1);color:#cc0000;border:1px solid rgba(220,50,50,.2);margin-top:8px}
+.bsand{background:rgba(242,194,136,.2);color:var(--gold);
+  border:1px solid rgba(191,145,6,.3);margin-top:8px}
+.bsm{padding:8px 16px;font-size:12px;border-radius:10px;width:auto;display:inline-block}
+.fg{margin-bottom:13px}
+.fl{font-size:12px;font-weight:800;color:var(--muted);margin-bottom:5px;display:block}
+.fi,.fta,.fsel{width:100%;border:1.5px solid rgba(50,200,217,.3);border-radius:10px;
+  padding:9px 13px;font-size:14px;color:var(--dark);background:var(--card2);
+  outline:none;font-family:inherit;transition:.2s}
+.fi:focus,.fta:focus,.fsel:focus{border-color:var(--teal)}
+.fta{min-height:72px;resize:vertical}
+.zinc-badge{display:inline-block;background:rgba(191,145,6,.15);color:var(--gold);
+  border-radius:8px;padding:2px 8px;font-size:10px;font-weight:800;
+  margin-left:6px;vertical-align:middle}
+.custom-badge{display:inline-block;background:rgba(50,200,217,.15);color:var(--teal);
+  border-radius:8px;padding:2px 8px;font-size:10px;font-weight:800;
+  margin-left:6px;vertical-align:middle}
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);
+  background:var(--dark);color:var(--yell);padding:11px 24px;border-radius:20px;
+  font-size:13px;font-weight:800;z-index:500;display:none;
+  box-shadow:0 4px 20px rgba(50,200,217,.3)}
+.del-btn{background:rgba(220,50,50,.1);color:#cc0000;border:1px solid rgba(220,50,50,.2);
+  border-radius:8px;padding:6px 14px;font-size:12px;font-weight:700;
+  cursor:pointer;font-family:inherit;margin-top:8px}
+.expand-btn{background:none;border:none;cursor:pointer;font-size:12px;
+  color:var(--muted);font-family:inherit;padding:4px 0;font-weight:600}
+@keyframes fi{from{opacity:0}to{opacity:1}}
+@keyframes su{from{transform:translateY(40px);opacity:0}to{transform:translateY(0);opacity:1}}
+</style>
+</head>
+<body>
+<div class="top">
+  <h1>✨ Meem's Glow Up</h1>
+  <div class="sub">Inside-Out Beauty System 🌟</div>
+  <div class="dpill" id="dpill">—</div>
+</div>
+<div class="nav">
+  <button class="nb on" onclick="nav('today')">🏠 Today</button>
+  <button class="nb" onclick="nav('morning')">☀️ Morning</button>
+  <button class="nb" onclick="nav('day')">🏢 Day</button>
+  <button class="nb" onclick="nav('evening')">🌙 Evening</button>
+  <button class="nb" onclick="nav('supps')">💊 Supps</button>
+  <button class="nb" onclick="nav('water')">💧 Water</button>
+  <button class="nb" onclick="nav('alarms')">⏰ Alarms</button>
+  <button class="nb" onclick="nav('edit')">✏️ Edit</button>
+</div>
+<div class="popup" id="popup">
+  <div class="pbox">
+    <div class="pem" id="pEm">✨</div>
+    <div class="ptit" id="pTit">—</div>
+    <div class="ptm" id="pTm">—</div>
+    <div class="pmsg" id="pMsg">—</div>
+    <button class="pok" onclick="dismiss()">✅ تم! Done!</button>
+    <button class="psn" onclick="snooze()">😴 Snooze 5 min</button>
+  </div>
+</div>
+<div class="toast" id="toast">✅ Saved!</div>
+<div class="wrap">
+
+<!-- TODAY -->
+<div id="pg-today" class="pg on">
+  <div id="restDiv" style="display:none">
+    <div class="rest">
+      <div style="font-size:44px;margin-bottom:8px">🌸</div>
+      <h2>يوم الراحة — Rest Day!</h2>
+      <p>Thursday — your well-deserved break Meem! 💆‍♀️<br>
+      Skincare still runs ✅ &nbsp;|&nbsp; 💧 Water &nbsp;|&nbsp; 💊 Supplements</p>
+    </div>
+  </div>
+  <div id="wkndDiv" style="display:none">
+    <div class="wknd"><h3>🎉 Weekend Mode!</h3>
+      <p>Day starts <b>9:00 AM</b> — ends <b>11:00 PM</b> 🌙</p></div>
+  </div>
+  <div class="qcard">
+    <div class="qa" id="qMsg">الجمال من الداخل والخارج ✨</div>
+    <div class="qe" id="qSub">Your consistency today builds tomorrow's glow!</div>
+  </div>
+  <div class="card">
+    <div class="ch"><div class="eb">📊</div>
+      <div><div class="ct">Today's Progress</div>
+        <div class="cs" id="progTxt">0 of 0 steps</div></div>
+    </div>
+    <div class="pbar"><div class="pfill" id="pfill" style="width:0%"></div></div>
+    <div class="ppct" id="ppct">0%</div>
+  </div>
+  <div class="nxt">
+    <div class="nl">⏰ Next Reminder</div>
+    <div class="nt" id="nxtT">—</div>
+    <div class="ns" id="nxtS">Checking...</div>
+  </div>
+  <div class="card">
+    <div class="ch"><div class="eb">📋</div>
+      <div><div class="ct">All Steps Today</div>
+        <div class="cs">Tap ✅ to mark done</div></div>
+    </div>
+    <div id="todayList"></div>
+  </div>
+</div>
+
+<!-- MORNING -->
+<div id="pg-morning" class="pg">
+  <div class="qcard"><div class="qa">الصبح بكير بداية النور 🌅</div>
+    <div class="qe">Every morning step is an investment in your future glow, مييم!</div></div>
+  <div id="morningCards"></div>
+</div>
+
+<!-- DAY -->
+<div id="pg-day" class="pg">
+  <div class="qcard"><div class="qa">حتى في الشغل، جسمك يستاهل الاهتمام 💪</div>
+    <div class="qe">Your glow up doesn't pause for work — your body heals all day!</div></div>
+  <div id="dayCards"></div>
+</div>
+
+<!-- EVENING -->
+<div id="pg-evening" class="pg">
+  <div class="qcard"><div class="qa">الليل وقت الإصلاح والتجديد 🌙</div>
+    <div class="qe">While you sleep, your serums work overtime — fuel them properly!</div></div>
+  <div id="eveningCards"></div>
+</div>
+
+<!-- SUPPS -->
+<div id="pg-supps" class="pg">
+  <div class="qcard"><div class="qa">كل كبسولة تحارب عشان بشرتك ✨</div>
+    <div class="qe">Your supplements are your invisible skincare team — don't skip!</div></div>
+  <div class="card">
+    <div class="ch"><div class="eb">💊</div>
+      <div><div class="ct">Daily Supplements</div>
+        <div class="cs">Tap when taken ✅</div></div>
+    </div>
+    <div class="sg" id="suppGrid"></div>
+  </div>
+  <div class="card">
+    <div class="ch"><div class="eb">⚠️</div><div><div class="ct">Critical Rules</div></div></div>
+    <div class="note">
+      🔆 <b>Glutathione</b> — EMPTY STOMACH 5:30 AM before anything<br><br>
+      🌾 <b>Psyllium Husks</b> — 10:00 AM in LARGE glass of water, 2hrs away from all supplements<br><br>
+      ☀️ <b>D3+K2 + EPO</b> — with lunch 2:00 PM, must eat first<br><br>
+      🪨 <b>Zinc</b> — 3 days/week ONLY (Sun, Tue, Thu) with dinner<br><br>
+      🌙 <b>Magnesium</b> — 30 min before sleep<br><br>
+      💪 <b>Collagen</b> — warm chamomile tea or warm milk at bedtime<br><br>
+      🎒 <b>Pack bag TONIGHT</b> — MaryRuth's + Probiotic + Shade Factor<br><br>
+      🍊 <b>MaryRuth's with OJ</b> — boosts absorption! ✅ Avoid grapefruit ❌
+    </div>
+  </div>
+</div>
+
+<!-- WATER -->
+<div id="pg-water" class="pg">
+  <div class="card" style="background:rgba(50,200,217,.08);border-color:rgba(50,200,217,.3)">
+    <div class="ch"><div class="eb">💧</div>
+      <div><div class="ct" style="color:var(--teal)">Water Tracker</div>
+        <div class="cs">Goal: 10 glasses/day</div></div>
+    </div>
+    <div style="text-align:center;margin:8px 0">
+      <span style="font-size:30px;font-weight:900;color:var(--teal)" id="wCount">0</span>
+      <span style="font-size:14px;color:var(--muted)"> / 10</span>
+    </div>
+    <div class="cups" id="cups"></div>
+    <div style="text-align:center;font-size:13px;font-weight:800;color:var(--teal);margin-bottom:12px" id="wMsg">اشربي ماي يا مييم! 💧</div>
+    <div style="display:flex;gap:8px">
+      <button class="btn bteal bsm" style="flex:1" onclick="addW()">+ Add Glass</button>
+      <button class="btn bsm" style="background:rgba(50,200,217,.15);color:var(--teal)" onclick="resetW()">↺ Reset</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch"><div class="eb">⏰</div>
+      <div><div class="ct">Water Reminders</div>
+        <div class="cs">Starting 12:00 PM — every 1–2 hours</div></div>
+    </div>
+    <div id="waterAlarms"></div>
+  </div>
+</div>
+
+<!-- ALARMS -->
+<div id="pg-alarms" class="pg">
+  <div class="card">
+    <div class="ch"><div class="eb">⏰</div>
+      <div><div class="ct">All Reminders</div><div class="cs">Toggle on/off</div></div>
+    </div>
+    <div id="alarmList"></div>
+  </div>
+  <div class="card">
+    <div class="ch"><div class="eb">🌸</div>
+      <div><div class="ct">Thursday — Rest Day</div>
+        <div class="cs">Skincare still runs ✅</div></div>
+    </div>
+    <div class="note">On Thursdays skincare alarms still fire — rest day doesn't mean skipping your skin! 💆‍♀️</div>
+  </div>
+</div>
+
+<!-- EDIT -->
+<div id="pg-edit" class="pg">
+
+  <!-- EDIT EXISTING STEP -->
+  <div class="card">
+    <div class="ch"><div class="eb">✏️</div>
+      <div><div class="ct">Edit a Step</div><div class="cs">Change any detail</div></div>
+    </div>
+    <div class="fg">
+      <label class="fl">Select Step to Edit</label>
+      <select class="fsel" id="editSel" onchange="loadEdit()">
+        <option value="">— Choose a step —</option>
+      </select>
+    </div>
+    <div id="editForm" style="display:none">
+      <div class="fg"><label class="fl">✨ Step Name</label>
+        <input type="text" class="fi" id="eName" placeholder="e.g. Vitamin C Serum"></div>
+      <div class="fg"><label class="fl">😀 Emoji</label>
+        <input type="text" class="fi" id="eEmoji" placeholder="e.g. 🍊" style="max-width:80px"></div>
+      <div class="fg"><label class="fl">⏰ Weekday Time</label>
+        <input type="time" class="fi" id="eTime" style="max-width:140px"></div>
+      <div class="fg"><label class="fl">🎉 Weekend Time</label>
+        <input type="time" class="fi" id="eTimeW" style="max-width:140px"></div>
+      <div class="fg"><label class="fl">📝 Instructions</label>
+        <textarea class="fta" id="eNote"></textarea></div>
+      <div class="fg"><label class="fl">💬 Motivational Note</label>
+        <textarea class="fta" id="eMotiv"></textarea></div>
+      <div class="fg"><label class="fl">🌍 Note Language</label>
+        <select class="fsel" id="eLang">
+          <option value="ar">Arabic 🇸🇦</option>
+          <option value="en">English 🇬🇧</option>
+        </select>
+      </div>
+      <button class="btn bteal" onclick="saveEdit()" style="margin-bottom:8px">💾 Save Changes</button>
+      <button class="btn bred" id="deleteBtn" onclick="deleteStep()">🗑️ Delete This Step</button>
+    </div>
+  </div>
+
+  <!-- ADD NEW STEP -->
+  <div class="card">
+    <div class="ch"><div class="eb">➕</div>
+      <div><div class="ct">Add New Step</div>
+        <div class="cs">Add your own custom step</div></div>
+    </div>
+    <div class="fg"><label class="fl">✨ Step Name</label>
+      <input type="text" class="fi" id="nName" placeholder="e.g. Face Massage"></div>
+    <div class="fg"><label class="fl">😀 Emoji</label>
+      <input type="text" class="fi" id="nEmoji" placeholder="e.g. 💆" style="max-width:80px"></div>
+    <div class="fg"><label class="fl">📅 Phase</label>
+      <select class="fsel" id="nPhase">
+        <option value="morning">☀️ Morning</option>
+        <option value="day">🏢 Day</option>
+        <option value="evening">🌙 Evening</option>
+      </select>
+    </div>
+    <div class="fg"><label class="fl">⏰ Weekday Time</label>
+      <input type="time" class="fi" id="nTime" style="max-width:140px"></div>
+    <div class="fg"><label class="fl">🎉 Weekend Time</label>
+      <input type="time" class="fi" id="nTimeW" style="max-width:140px"></div>
+    <div class="fg"><label class="fl">📝 Instructions</label>
+      <textarea class="fta" id="nNote" placeholder="What to do in this step..."></textarea></div>
+    <div class="fg"><label class="fl">💬 Motivational Note</label>
+      <textarea class="fta" id="nMotiv" placeholder="An encouraging note for this step..."></textarea></div>
+    <div class="fg"><label class="fl">🌍 Note Language</label>
+      <select class="fsel" id="nLang">
+        <option value="ar">Arabic 🇸🇦</option>
+        <option value="en">English 🇬🇧</option>
+      </select>
+    </div>
+    <button class="btn bteal" onclick="addStep()">➕ Add Step</button>
+  </div>
+
+  <!-- SETTINGS -->
+  <div class="card">
+    <div class="ch"><div class="eb">⚙️</div><div><div class="ct">Settings</div></div></div>
+    <div class="fg"><label class="fl">🌅 Weekday Wake-up</label>
+      <input type="time" class="fi" id="sWake" value="05:30" style="max-width:140px"></div>
+    <div class="fg"><label class="fl">🎉 Weekend Wake-up</label>
+      <input type="time" class="fi" id="sWW" value="09:00" style="max-width:140px"></div>
+    <div class="fg"><label class="fl">😴 Weekday Bedtime</label>
+      <input type="time" class="fi" id="sSleep" value="21:30" style="max-width:140px"></div>
+    <div class="fg"><label class="fl">🌙 Weekend Bedtime</label>
+      <input type="time" class="fi" id="sWS" value="23:00" style="max-width:140px"></div>
+    <button class="btn bteal" onclick="saveSettings()" style="margin-bottom:8px">💾 Save Settings</button>
+    <button class="btn bsand" onclick="resetAll()">🔄 Reset All Data</button>
+  </div>
+</div>
+
+</div>
+<script>
+// ══════════════════════════════════════
+// DEFAULT STEPS
+// ══════════════════════════════════════
+const DEFAULTS=[
+  {id:'wake',phase:'morning',time:'05:30',timeW:'09:00',emoji:'🥥',
+   name:'Wake Up + Oil Pulling + Make Coffee',
+   note:'Swish 1 tbsp coconut oil for 10–20 min while making your coffee. Spit in trash, rinse with warm water, brush teeth.',
+   area:'',motiv:'صباح النور يا مييم! ابدئي يومك بالبركة 🌸 بلعي الزيت وحضري قهوتك في نفس الوقت!',lang:'ar'},
+  {id:'glut',phase:'morning',time:'05:35',timeW:'09:05',emoji:'🔆',
+   name:'Glutathione Capsule',
+   note:'Take 1 Life Extension Glutathione capsule on EMPTY STOMACH before eating anything. Maximum absorption before food!',
+   area:'',motiv:'This tiny capsule is fighting your hyperpigmentation while you get ready — science working FOR you! 💪✨',lang:'en'},
+  {id:'cleanse_am',phase:'morning',time:'05:40',timeW:'09:07',emoji:'🧼',
+   name:'Step 1 — Cleanse Face',
+   note:'Apply Vanicream Gentle Cleanser to wet skin. Lather gently 30 seconds. Rinse lukewarm. Pat dry — never rub!\n\nOR on non-retinol mornings: Use Anua Heartleaf Quercetinol Foam Cleanser for deeper pore cleansing.',
+   area:'✅ Apply to: Full face, neck\n❌ Be gentle around: Eye area — no tugging',
+   motiv:'وجهك النظيف = تربة خصبة للسيروم 🌱 كل قطرة تستاهل يا مييم!',lang:'ar'},
+  {id:'toner_am',phase:'morning',time:'05:42',timeW:'09:09',emoji:'🌿',
+   name:'Step 2 — Anua Heartleaf Toner',
+   note:'Pour a small amount on your palms or a cotton pad. Gently press into face and neck. Let it absorb — it preps your skin perfectly for serums and keeps it damp for the HA step!',
+   area:'✅ Apply to: Full face, neck\n✅ Great around eyes: Soothes the eye area\n✅ Include: Neck and décolletage',
+   motiv:'Toner preps your skin like a canvas — everything after absorbs 2x better! 🌿✨',lang:'en'},
+  {id:'vitc',phase:'morning',time:'05:44',timeW:'09:11',emoji:'🍊',
+   name:'Step 3 — Vitamin C Serum',
+   note:'Apply 2–3 drops TruSkin Vitamin C Serum. Press gently into skin. Wait 60 seconds. MORNING ONLY — never skip, especially in Dammam\'s sun!',
+   area:'✅ Apply to: Full face, neck, décolletage\n⚠️ Avoid: Directly on eyelids\n✅ OK: Orbital bone area',
+   motiv:'Vitamin C = your daily armor against Dammam\'s UV rays! ☀️🛡️',lang:'en'},
+  {id:'tranex_am',phase:'morning',time:'05:46',timeW:'09:13',emoji:'🔬',
+   name:'Step 4 — Tranexamic Acid Serum',
+   note:'Apply 1–2 drops Cos De BAHA TN Serum. Fights melasma directly. Wait 60 seconds.',
+   area:'✅ Apply to: Full face, neck, dark spot areas\n✅ OK around eyes: Orbital bone fine\n❌ Avoid: Inside lip area',
+   motiv:'هذا السيروم يوقف إنتاج الميلانين المسبب للبقع 🔬 استمري يا مييم!',lang:'ar'},
+  {id:'ha_am',phase:'morning',time:'05:48',timeW:'09:15',emoji:'💧',
+   name:'Step 5 — Hyaluronic Acid Serum',
+   note:'IMPORTANT: Apply on damp skin — the toner keeps skin damp perfectly for this step! HA needs moisture to work. On dry skin it pulls moisture OUT instead of adding it.',
+   area:'✅ Apply to: Full face, neck — while damp!\n✅ Great around eyes: Plumps under-eye hollow\n✅ Apply to lips: Natural plumper',
+   motiv:'Damp skin + HA = maximum plump and glow! The toner set you up perfectly! 💧✨',lang:'en'},
+  {id:'eye_am',phase:'morning',time:'05:51',timeW:'09:17',emoji:'👁️',
+   name:'Step 6 — Eye Serum',
+   note:'Rice-grain amount under each eye. RING FINGER only — weakest finger, safest for delicate eye area. Tap gently on orbital bone.',
+   area:'✅ Apply to: Under-eye area, orbital bone\n❌ Avoid: On eyelid\n❌ Avoid: Too close to lash line\n✅ OK: Outer corner crow\'s feet',
+   motiv:'الكافيين والببتيدات تحاربان هالاتك الحين 👁️ انقري بلطف على العظمة!',lang:'ar'},
+  {id:'moist_am',phase:'morning',time:'05:53',timeW:'09:19',emoji:'🧴',
+   name:'Step 7 — Moisturizer',
+   note:'Apply Vanicream Daily Moisturizer over whole face and neck. Seals ALL serums in. Apply to neck and chest too!',
+   area:'✅ Apply to: Full face, neck, chest\n✅ Include: Around eyes — locks in eye serum\n✅ Include: Lips as base layer',
+   motiv:'Moisturizer = the lid that locks all your serums inside all day! 🔒✨',lang:'en'},
+  {id:'spf',phase:'morning',time:'05:55',timeW:'09:21',emoji:'☀️',
+   name:'Step 8 — SPF 50 ☀️ NON-NEGOTIABLE',
+   note:'Apply Eucerin Age Defense SPF 50 generously to face and neck. WITHOUT SPF nothing works against your melasma. NEVER skip!',
+   area:'✅ Apply to: Full face, neck, ears, chest\n✅ Include: Around eyes — gentle application\n✅ Include: Lips — use SPF lip balm\n❌ Never: Skip even indoors',
+   motiv:'الواقي الشمسي = 50% من علاج بقعك 🌞 بدونه كل شي ثاني هباء!',lang:'ar'},
+  {id:'coconut_am',phase:'morning',time:'06:05',timeW:'09:30',emoji:'🥥',
+   name:'Coconut Oil Internal Dose',
+   note:'Take ¼–½ tsp organic coconut oil straight off the spoon. Let it melt in mouth. Quick before you leave!',
+   area:'',motiv:'30 seconds, huge benefits — MCT energy for your day + gut health! 🥥✨',lang:'en'},
+  // DAY
+  {id:'coffee',phase:'day',time:'08:00',timeW:'09:45',emoji:'☕',
+   name:'Drink Your Coffee',
+   note:'Enjoy your coffee! Black — NO sugar, NO sweeteners.',
+   area:'',motiv:'Your well-earned coffee Meem! Black, no sugar — your skin thanks you! ☕✨',lang:'en'},
+  {id:'breakfast',phase:'day',time:'09:00',timeW:'10:00',emoji:'🥣',
+   name:'Breakfast + 3 Supplements',
+   note:'Eat breakfast! After finishing take:\n1️⃣ MaryRuth\'s (2 tbsp — shake well!)\n2️⃣ NOW Foods Probiotic (1 capsule)\n3️⃣ Shade Factor (1–2 capsules)\nTip: Mix MaryRuth\'s with OJ! ✅',
+   area:'',motiv:'فطورك وفيتاميناتك الثلاثة = وقود جمالك ليوم كامل! 🌟',lang:'ar'},
+  {id:'psyllium',phase:'day',time:'10:00',timeW:'10:30',emoji:'🌾',
+   name:'Psyllium Husks + Chlorophyll',
+   note:'PSYLLIUM HUSKS (take first):\n• Mix 1 tsp in a LARGE glass of water (300ml+)\n• Drink IMMEDIATELY — it thickens fast!\n• Then drink another full glass of water\n• Must be 2 HOURS AWAY from all supplements!\n\n✅ DO\'S:\n• Always drink with plenty of water\n• Start with ½ tsp and build up\n• Take consistently for best results\n• Great with morning chlorophyll water\n\n❌ DON\'TS:\n• Never take without enough water — causes choking\n• Never take within 2 hrs of supplements or medication\n• Never exceed 1 tbsp per day\n• Don\'t take right before bed\n\nWait 10 min then:\nMix 1 tsp Liquid Chlorophyll + 1ml Lymphatic Drops in a fresh glass of water.',
+   area:'',motiv:'الألياف + الكلوروفيل = تنظيف جسمك من الداخل وبشرة أصفى 🌾🌿 استمري يا مييم!',lang:'ar'},
+  {id:'water1',phase:'day',time:'12:00',timeW:'12:30',emoji:'💧',
+   name:'Water Break — Glass 4',
+   note:'Drink a full glass of water NOW! First water reminder of the day.',
+   area:'',motiv:'اشربي ماي يا مييم! 💧 البشرة المرطبة = البشرة المشرقة!',lang:'ar'},
+  {id:'lunch',phase:'day',time:'14:00',timeW:'14:30',emoji:'🍽️',
+   name:'Lunch + D3K2 + Evening Primrose',
+   note:'Eat lunch first, then take:\n1️⃣ Sports Research D3+K2 (1 softgel)\n2️⃣ Evening Primrose Oil (1 softgel)\nBoth MUST be taken WITH food!',
+   area:'',motiv:'Lunch supplements = afternoon glow fuel! D3 repairs + EPO radiates! ☀️💊',lang:'en'},
+  {id:'water2',phase:'day',time:'15:00',timeW:'15:30',emoji:'💧',
+   name:'Water Break — Glass 6',
+   note:'Mid-afternoon water check! Drink a full glass now.',
+   area:'',motiv:'نص اليوم مر — اشربي ماي الحين يا مييم! 💧',lang:'ar'},
+  {id:'water3',phase:'day',time:'17:00',timeW:'17:30',emoji:'💧',
+   name:'Water Break — Glass 8',
+   note:'Almost done with the work day! Drink a full glass now.',
+   area:'',motiv:'Almost at your water goal! Drink up! 💪💧',lang:'en'},
+  {id:'water4',phase:'day',time:'19:00',timeW:'19:30',emoji:'💧',
+   name:'Water Break — Glass 9',
+   note:'Evening water reminder — 1–2 more glasses to hit your goal!',
+   area:'',motiv:'قريبة من الهدف يا مييم! 💧 كاس أو كاسين وتكتملين!',lang:'ar'},
+  {id:'bag',phase:'day',time:'20:00',timeW:'21:00',emoji:'🎒',
+   name:'Pack Work Bag for Tomorrow',
+   note:'Pack your supplements bag TONIGHT:\n✅ MaryRuth\'s Multivitamin\n✅ NOW Foods Probiotic\n✅ Life Extension Shade Factor\nPlace by your keys!',
+   area:'',motiv:'مييم حضري حقيبة فيتاميناتك الليلة! 🎒 ضعيها جنب المفاتيح!',lang:'ar'},
+  {id:'noeating',phase:'day',time:'20:00',timeW:'22:00',emoji:'🚫',
+   name:'Stop Eating — 30 Min Warning!',
+   note:'No eating after 8:30 PM on weekdays (10:30 PM weekends)! Finish any food NOW.',
+   area:'',motiv:'Last call for food Meem! Your body will focus 100% on skin repair overnight! 🌙✨',lang:'en'},
+  // EVENING
+  {id:'ecleanse',phase:'evening',time:'20:30',timeW:'21:30',emoji:'🧼',
+   name:'Evening Step 1 — Cleanse Face',
+   note:'Remove SPF, pollution, day\'s grime.\n• Retinol nights → Vanicream Gentle Cleanser\n• Non-retinol nights → Anua Foam Cleanser\nDouble cleanse if you wore makeup.',
+   area:'✅ Apply to: Full face, neck\n❌ Be gentle: Eye area — no tugging\n💡 Use separate eye makeup remover first',
+   motiv:'وقت الروتين الليلي يا مييم! 🌙 اغسلي وجهك من كل تراب اليوم ✨',lang:'ar'},
+  {id:'toner_pm',phase:'evening',time:'20:32',timeW:'21:32',emoji:'🌿',
+   name:'Evening Step 2 — Anua Toner',
+   note:'Apply Anua Heartleaf 77% Soothing Toner on face and neck. Pat gently. Keeps skin damp and perfectly prepped for serums. Also soothes any retinol irritation!',
+   area:'✅ Apply to: Full face, neck\n✅ Soothes: Around eye area\n✅ Calms: Any redness from the day',
+   motiv:'Toner after cleanse = skin reset! Now perfectly prepped for your actives! 🌿✨',lang:'en'},
+  {id:'tranex_pm',phase:'evening',time:'20:34',timeW:'21:34',emoji:'🔬',
+   name:'Evening Step 3 — Tranexamic Acid',
+   note:'Apply 1–2 drops Cos De BAHA TN Serum. AM + PM doubles your melasma-fighting power! Wait 30–60 seconds.',
+   area:'✅ Apply to: Full face, neck, dark spot areas\n✅ OK around eyes: Orbital bone fine\n❌ Avoid: Inside lip area',
+   motiv:'Second hit on your dark patches — AM+PM protocol works faster! 💪🔬',lang:'en'},
+  {id:'retinol',phase:'evening',time:'20:38',timeW:'21:38',emoji:'⭐',
+   name:'Evening Step 4 — Retinol Serum',
+   note:'Apply 2–4 drops Mad Hippie Super A Serum. PM ONLY! Start 2x per week, build to nightly slowly.',
+   area:'✅ Apply to: Full face, neck\n❌ AVOID: Direct under-eye area\n❌ AVOID: Around lips/corners of mouth initially\n❌ AVOID: Open cuts or active breakouts',
+   motiv:'الريتينول يجدد خلايا بشرتك وأنتِ نايمة ⭐ هذا سر الإشراق الصباحي!',lang:'ar'},
+  {id:'ha_pm',phase:'evening',time:'20:42',timeW:'21:42',emoji:'💧',
+   name:'Evening Step 5 — Hyaluronic Acid',
+   note:'Apply on damp skin after retinol — toner already kept skin damp! Buffers retinol irritation + overnight hydration.',
+   area:'✅ Apply to: Full face, neck — while damp!\n✅ Great around eyes: Plumps under-eye area\n✅ Apply to lips: Overnight plumper',
+   motiv:'HA after retinol = genius combo! Calms + plumps while you sleep! 💧✨',lang:'en'},
+  {id:'eye_pm',phase:'evening',time:'20:45',timeW:'21:45',emoji:'👁️',
+   name:'Evening Step 6 — Eye Serum',
+   note:'Apply under eyes with ring finger only! Tap on orbital bone. Let absorb before moisturizer.',
+   area:'✅ Apply to: Under-eye, orbital bone, outer corners\n❌ Avoid: On eyelid\n❌ Avoid: Too close to lash line',
+   motiv:'الكافيين والببتيدات تشتغل على هالاتك طول الليل 👁️ الاستمرار هو السر!',lang:'ar'},
+  {id:'moist_pm',phase:'evening',time:'20:48',timeW:'21:48',emoji:'🧴',
+   name:'Evening Step 7 — Moisturizer',
+   note:'Apply Vanicream Moisturizer over entire face and neck. Seals ALL serums for overnight absorption!',
+   area:'✅ Apply to: Full face, neck, chest\n✅ Include: Over eye serum\n✅ Include: Lips as overnight treatment',
+   motiv:'Moisturizer seals your entire routine inside — magic happens while you dream! 🌙✨',lang:'en'},
+  {id:'bedsupp',phase:'evening',time:'21:00',timeW:'22:00',emoji:'💊',
+   name:'Bedtime Supplements',
+   note:'1️⃣ 🪨 Zinc (Sun/Tue/Thu ONLY — 3x/week!) with food\n2️⃣ 🌙 Doctor\'s Best Magnesium (2 tablets = 200mg)\n3️⃣ 💪 Collagen Peptides (1 scoop warm tea or milk)',
+   area:'',motiv:'فيتامينات الليل تشتغل وأنتِ نايمة 💊🌙 مغنيسيوم للنوم العميق + كولاجين لبشرة مشرقة!',lang:'ar'},
+  {id:'coconut_pm',phase:'evening',time:'21:10',timeW:'22:10',emoji:'🥥',
+   name:'Body Care + Hair + Feet',
+   note:'Coconut oil on body after shower. Hair mask 2x/week. Feet: rub heels, wear socks overnight.',
+   area:'',motiv:'Full body glow time Meem! Head to toe coconut oil — wake up glowing everywhere! 🥥✨',lang:'en'},
+  {id:'winddown',phase:'evening',time:'21:20',timeW:'22:45',emoji:'😴',
+   name:'Wind Down — Sleep Soon',
+   note:'Screens off soon! Your skin does 80% of repair 10PM–2AM. Sleep is the best FREE skincare treatment!',
+   area:'',motiv:'ضعي التليفون يا مييم 😴 نومك = أفضل علاج مجاني لبشرتك — أنتِ أدّيتِ الواجب اليوم! 🌙✨',lang:'ar'},
+];
+
+const WATER_TIMES=['12:00','14:30','16:00','17:30','19:00','20:30'];
+
+const SUPPS=[
+  {id:'s_glut',emoji:'🔆',name:'Glutathione',time:'5:30 AM empty stomach'},
+  {id:'s_mary',emoji:'💊',name:"MaryRuth's",time:'9:00 AM with breakfast'},
+  {id:'s_prob',emoji:'🦠',name:'Probiotic (NOW)',time:'9:00 AM with breakfast'},
+  {id:'s_shade',emoji:'🌿',name:'Shade Factor',time:'9:00 AM with breakfast'},
+  {id:'s_psyl',emoji:'🌾',name:'Psyllium Husks',time:'10:00 AM — large water!'},
+  {id:'s_d3',emoji:'☀️',name:'D3 + K2',time:'2:00 PM with lunch'},
+  {id:'s_epo',emoji:'🌸',name:'Evening Primrose',time:'2:00 PM with lunch'},
+  {id:'s_zinc',emoji:'🪨',name:'Zinc (3x/week)',time:'9:00 PM with dinner',zinc:true},
+  {id:'s_mag',emoji:'🌙',name:'Magnesium',time:'9:00 PM before sleep'},
+  {id:'s_coll',emoji:'💪',name:'Collagen',time:'9:00 PM warm drink'},
+  {id:'s_coco',emoji:'🥥',name:'Coconut Oil',time:'6:05 AM + evening'},
+];
+
+const QUOTES=[
+  {ar:'الجمال من الداخل والخارج ✨',en:"Your consistency today builds tomorrow's glow!"},
+  {ar:'كل خطوة تقربك من بشرتك الحلمية 🌸',en:'Every step is an investment in your future skin!'},
+  {ar:'اللي تزرعينه اليوم تحصدينه بعد 90 يوم 🌱',en:'90 days of consistency = the glow up you dream of!'},
+  {ar:'بشرتك تستاهل كل لحظة من الاهتمام 💆‍♀️',en:'Your skin responds to every drop of care — trust it!'},
+  {ar:'الجمال عادة يومية مش حدث نادر ✨',en:"Beauty is a daily habit — you're building yours!"},
+  {ar:'أنتِ تستحقين كل خير يا مييم 🌟',en:'You deserve to glow from the inside out, Meem!'},
+  {ar:'مع كل يوم بشرتك تتحسن أكثر 📈',en:'Every single day your skin is getting better!'},
+];
+
+const ZINC_DAYS=[0,2,4];
+let steps,suppState,waterCount,checked,alarmStates,snoozeId;
+
+function load(){
+  steps=JSON.parse(localStorage.getItem('sv5'))||JSON.parse(JSON.stringify(DEFAULTS));
+  suppState=JSON.parse(localStorage.getItem('ss'))||{};
+  waterCount=parseInt(localStorage.getItem('wd')===today()?localStorage.getItem('wc')||0:0);
+  checked=JSON.parse(localStorage.getItem('cd')===today()?localStorage.getItem('ch')||'{}':'{}');
+  alarmStates=JSON.parse(localStorage.getItem('as'))||{};
+}
+function save(){
+  localStorage.setItem('sv5',JSON.stringify(steps));
+  localStorage.setItem('ss',JSON.stringify(suppState));
+  localStorage.setItem('wc',waterCount);
+  localStorage.setItem('wd',today());
+  localStorage.setItem('ch',JSON.stringify(checked));
+  localStorage.setItem('cd',today());
+  localStorage.setItem('as',JSON.stringify(alarmStates));
+}
+function today(){return new Date().toDateString()}
+function dow(){return new Date().getDay()}
+function isWeekend(){return dow()===5||dow()===6}
+function isThursday(){return dow()===4}
+function isZincDay(){return ZINC_DAYS.includes(dow())}
+function getTime(s){return isWeekend()&&s.timeW?s.timeW:s.time}
+function to12(t){
+  if(!t)return'';
+  const[h,m]=t.split(':').map(Number);
+  return`${h%12||12}:${String(m).padStart(2,'0')} ${h>=12?'PM':'AM'}`;
+}
+function fmt(s){return to12(getTime(s))}
+
+function nav(id){
+  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
+  document.getElementById('pg-'+id).classList.add('on');
+  event.currentTarget.classList.add('on');
+  if(id==='today')renderToday();
+  if(id==='morning')renderPhase('morning','morningCards');
+  if(id==='day')renderPhase('day','dayCards');
+  if(id==='evening')renderPhase('evening','eveningCards');
+  if(id==='supps')renderSupps();
+  if(id==='water')renderWater();
+  if(id==='alarms')renderAlarms();
+  if(id==='edit')renderEdit();
+}
+
+function renderToday(){
+  document.getElementById('restDiv').style.display=isThursday()?'block':'none';
+  document.getElementById('wkndDiv').style.display=isWeekend()?'block':'none';
+  const q=QUOTES[dow()%QUOTES.length];
+  const qm=document.getElementById('qMsg'),qs=document.getElementById('qSub');
+  if(dow()%2===0){qm.textContent=q.ar;qm.style.direction='rtl';qs.textContent=q.en;}
+  else{qm.textContent=q.en;qm.style.direction='ltr';qs.textContent=q.ar;}
+  updateProgress();
+  const nx=nextAlarm();
+  if(nx){document.getElementById('nxtT').textContent=fmt(nx);
+    document.getElementById('nxtS').textContent=nx.emoji+' '+nx.name;}
+  else{document.getElementById('nxtT').textContent='All done! 🎉';
+    document.getElementById('nxtS').textContent='Amazing work today, مييم! 🌟';}
+  const el=document.getElementById('todayList');el.innerHTML='';
+  steps.forEach(s=>{
+    const done=!!checked[s.id];
+    const zb=s.id==='bedsupp'&&isZincDay()?'<span class="zinc-badge">🪨 Zinc day!</span>':'';
+    const cb=s.custom?'<span class="custom-badge">custom</span>':'';
+    el.innerHTML+=`<div class="scr">
+      <div class="scb ${done?'done':''}" onclick="toggleStep('${s.id}',this)">${done?'✓':''}</div>
+      <div><div class="scn ${done?'done':''}">${s.emoji} ${s.name}${zb}${cb}</div>
+      <div class="sct">⏰ ${fmt(s)}</div></div></div>`;
+  });
+}
+
+function toggleStep(id,el){
+  checked[id]=!checked[id];
+  el.classList.toggle('done');el.textContent=checked[id]?'✓':'';
+  const nm=el.parentElement.querySelector('.scn');
+  if(nm)nm.classList.toggle('done',checked[id]);
+  save();updateProgress();
+}
+
+function updateProgress(){
+  const total=steps.length,done=Object.values(checked).filter(Boolean).length;
+  const pct=total?Math.round(done/total*100):0;
+  const pf=document.getElementById('pfill'),pp=document.getElementById('ppct'),pt=document.getElementById('progTxt');
+  if(pf)pf.style.width=pct+'%';
+  if(pp)pp.textContent=pct+'%';
+  if(pt)pt.textContent=done+' of '+total+' steps completed';
+}
+
+function renderPhase(phase,cid){
+  const el=document.getElementById(cid);el.innerHTML='';
+  steps.filter(s=>s.phase===phase).forEach(s=>{
+    const on=alarmStates[s.id]!==false;
+    const isAr=s.lang==='ar';
+    const areaHtml=s.area?`<div class="area-note"><b>📍 Application Guide:</b><br>${s.area.replace(/\n/g,'<br>')}</div>`:'';
+    const warnHtml=s.id==='psyllium'?`<div class="warn-note">
+      ⚠️ <b>Psyllium Critical Rules:</b><br>
+      🌾 Always drink with 300ml+ water — drink immediately before it thickens!<br>
+      ⏰ Must be 2 hours away from ALL supplements<br>
+      🚫 Never take dry — choking hazard<br>
+      📈 Start with ½ tsp, build to 1 tsp over 1–2 weeks<br>
+      🚫 Max 1 tbsp/day — never exceed<br>
+      🌙 Don't take close to bedtime
+    </div>`:'';
+    const zn=s.id==='bedsupp'?`<div class="area-note">🪨 <b>Zinc:</b> Sun, Tue, Thu ONLY — 3x/week!<br>Today: <b>${isZincDay()?'✅ Zinc day!':'❌ No zinc today'}</b></div>`:'';
+    const cb=s.custom?'<span class="custom-badge">custom</span>':'';
+    el.innerHTML+=`<div class="card">
+      <div class="ch"><div class="eb">${s.emoji}</div>
+      <div><div class="ct">${s.name}${cb}</div>
+      <div class="cs">⏰ ${to12(s.time)}${s.timeW?' | Weekend: '+to12(s.timeW):''}</div></div></div>
+      <div class="note">${s.note.replace(/\n/g,'<br>')}</div>
+      ${areaHtml}${warnHtml}${zn}
+      <div class="motiv ${isAr?'ar':'en'}">${s.motiv}</div>
+      <div class="tr" style="border:none;margin-top:6px">
+        <span class="tl">🔔 Alarm enabled</span>
+        <label class="tog"><input type="checkbox" ${on?'checked':''} onchange="toggleAlarm('${s.id}',this)"><span class="sl"></span></label>
+      </div></div>`;
+  });
+}
+
+function renderSupps(){
+  const el=document.getElementById('suppGrid');el.innerHTML='';
+  SUPPS.forEach(s=>{
+    const done=!!suppState[today()+'_'+s.id];
+    const isZ=s.zinc,zOk=isZincDay(),dim=isZ&&!zOk;
+    el.innerHTML+=`<div class="si ${done?'done':''}" onclick="${dim?'':` toggleSupp('${s.id}',this)`}" style="${dim?'opacity:.35;pointer-events:none':''}">
+      <div class="se">${s.emoji}</div>
+      <div class="sn">${s.name}${isZ?`<br><span style="font-size:9px;color:${zOk?'#0D3B42':'#BF9106'}">${zOk?'✅ Today!':'❌ Not today'}</span>`:''}</div>
+      <div class="st">${s.time}</div></div>`;
+  });
+}
+function toggleSupp(id,el){const k=today()+'_'+id;suppState[k]=!suppState[k];el.classList.toggle('done',suppState[k]);save();}
+
+function renderWater(){
+  const cups=document.getElementById('cups');cups.innerHTML='';
+  for(let i=0;i<10;i++)cups.innerHTML+=`<div class="cup ${i<waterCount?'full':''}" onclick="addW()"><div class="fill"></div></div>`;
+  document.getElementById('wCount').textContent=waterCount;
+  const msgs=['اشربي ماي يا مييم! 💧','كاس واحد ومشيتِ! 💧','ممتاز! كملي 💧','نص الطريق! 💧','أكثر من النص! 💧','5 كاسات ✨','6 كاسات 💧','7 كاسات 💧','8 كاسات — شوي! 💧','9 كاسات — كاس بس! 💧','🎉 وصلتِ الهدف! يا مييم! ✨'];
+  document.getElementById('wMsg').textContent=msgs[Math.min(waterCount,10)];
+  const wal=document.getElementById('waterAlarms');wal.innerHTML='';
+  WATER_TIMES.forEach(t=>{
+    const id='w_'+t.replace(':',''),on=alarmStates[id]!==false;
+    wal.innerHTML+=`<div class="tr"><div><div class="tl">💧 Drink Water</div>
+    <div class="tt">${to12(t)}</div></div>
+    <label class="tog"><input type="checkbox" ${on?'checked':''} onchange="toggleAlarm('${id}',this)"><span class="sl"></span></label></div>`;
+  });
+}
+function addW(){if(waterCount>=10)return;waterCount++;save();renderWater();}
+function resetW(){waterCount=0;save();renderWater();}
+
+function renderAlarms(){
+  const el=document.getElementById('alarmList');el.innerHTML='';
+  steps.forEach(s=>{
+    const on=alarmStates[s.id]!==false;
+    el.innerHTML+=`<div class="tr"><div><div class="tl">${s.emoji} ${s.name}</div>
+    <div class="tt">${to12(s.time)}${s.timeW?' | Wknd: '+to12(s.timeW):''}</div></div>
+    <label class="tog"><input type="checkbox" ${on?'checked':''} onchange="toggleAlarm('${s.id}',this)"><span class="sl"></span></label></div>`;
+  });
+}
+function toggleAlarm(id,el){alarmStates[id]=el.checked;save();}
+
+// ── EDIT ──
+function renderEdit(){
+  const sel=document.getElementById('editSel');
+  sel.innerHTML='<option value="">— Choose a step —</option>';
+  steps.forEach(s=>sel.innerHTML+=`<option value="${s.id}">${s.emoji} ${to12(s.time)} — ${s.name}</option>`);
+  document.getElementById('editForm').style.display='none';
+}
+
+function loadEdit(){
+  const id=document.getElementById('editSel').value;
+  const ef=document.getElementById('editForm');
+  if(!id){ef.style.display='none';return;}
+  const s=steps.find(x=>x.id===id);if(!s)return;
+  document.getElementById('eName').value=s.name;
+  document.getElementById('eEmoji').value=s.emoji;
+  document.getElementById('eTime').value=s.time;
+  document.getElementById('eTimeW').value=s.timeW||'';
+  document.getElementById('eNote').value=s.note;
+  document.getElementById('eMotiv').value=s.motiv;
+  document.getElementById('eLang').value=s.lang||'ar';
+  // Show delete button only for custom steps
+  document.getElementById('deleteBtn').style.display=s.custom?'block':'none';
+  ef.style.display='block';
+}
+
+function saveEdit(){
+  const id=document.getElementById('editSel').value;if(!id)return;
+  const s=steps.find(x=>x.id===id);if(!s)return;
+  s.name=document.getElementById('eName').value;
+  s.emoji=document.getElementById('eEmoji').value||s.emoji;
+  s.time=document.getElementById('eTime').value;
+  s.timeW=document.getElementById('eTimeW').value;
+  s.note=document.getElementById('eNote').value;
+  s.motiv=document.getElementById('eMotiv').value;
+  s.lang=document.getElementById('eLang').value;
+  save();showToast('✅ Saved! تم الحفظ');renderEdit();
+}
+
+function deleteStep(){
+  const id=document.getElementById('editSel').value;if(!id)return;
+  const s=steps.find(x=>x.id===id);
+  if(!s||!s.custom){showToast('❌ Can only delete custom steps!');return;}
+  if(!confirm(`Delete "${s.name}"?`))return;
+  steps=steps.filter(x=>x.id!==id);
+  save();showToast('🗑️ Deleted!');renderEdit();
+}
+
+// ── ADD STEP ──
+function addStep(){
+  const name=document.getElementById('nName').value.trim();
+  const time=document.getElementById('nTime').value;
+  if(!name){showToast('❌ Please enter a step name!');return;}
+  if(!time){showToast('❌ Please set a time!');return;}
+  const newStep={
+    id:'custom_'+Date.now(),
+    phase:document.getElementById('nPhase').value,
+    time,
+    timeW:document.getElementById('nTimeW').value||time,
+    emoji:document.getElementById('nEmoji').value||'✨',
+    name,
+    note:document.getElementById('nNote').value||'Complete this step as part of your routine.',
+    area:'',
+    motiv:document.getElementById('nMotiv').value||'يلا يا مييم — كل خطوة تقربك من هدفك! 💪',
+    lang:document.getElementById('nLang').value,
+    custom:true,
+  };
+  // Insert in time order within phase
+  const phaseSteps=steps.filter(s=>s.phase===newStep.phase);
+  const insertIdx=steps.findIndex(s=>s.phase===newStep.phase&&s.time>newStep.time);
+  if(insertIdx===-1)steps.push(newStep);
+  else steps.splice(insertIdx,0,newStep);
+  save();
+  // Clear form
+  ['nName','nEmoji','nTime','nTimeW','nNote','nMotiv'].forEach(id=>document.getElementById(id).value='');
+  showToast('✅ Step added! تمت الإضافة');
+  renderEdit();
+}
+
+function saveSettings(){save();showToast('✅ Settings saved!');}
+function resetAll(){if(!confirm('Reset all data? This cannot be undone!'))return;localStorage.clear();location.reload();}
+function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.style.display='block';setTimeout(()=>t.style.display='none',2500);}
+
+// ── ALARM ENGINE ──
+function timeToMins(t){if(!t)return 9999;const[h,m]=t.split(':').map(Number);return h*60+m;}
+function nowMins(){const n=new Date();return n.getHours()*60+n.getMinutes();}
+function nextAlarm(){
+  const now=nowMins();
+  return[...steps].sort((a,b)=>timeToMins(getTime(a))-timeToMins(getTime(b)))
+    .find(s=>alarmStates[s.id]!==false&&timeToMins(getTime(s))>now)||null;
+}
+
+function checkAlarms(){
+  const now=new Date();
+  const cur=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
+  steps.forEach(s=>{
+    if(getTime(s)!==cur)return;
+    if(alarmStates[s.id]===false)return;
+    if(s.id==='bedsupp'&&!isZincDay())return;
+    const fk='f_'+today()+'_'+s.id;
+    if(localStorage.getItem(fk))return;
+    localStorage.setItem(fk,'1');fireAlarm(s);
+  });
+  WATER_TIMES.forEach(t=>{
+    if(t!==cur)return;
+    const id='w_'+t.replace(':','');
+    if(alarmStates[id]===false)return;
+    const fk='f_'+today()+'_'+id;
+    if(localStorage.getItem(fk))return;
+    localStorage.setItem(fk,'1');
+    fireAlarm({id,emoji:'💧',name:'Drink Water! اشربي ماي!',time:t,timeW:t,
+      motiv:dow()%2===0?'اشربي كاس ماي الحين يا مييم! 💧 البشرة المرطبة = البشرة المشرقة ✨'
+        :'Water break! Hydrated skin glows 2x brighter! 💧',lang:dow()%2===0?'ar':'en'});
+  });
+  const nx=nextAlarm();
+  const nt=document.getElementById('nxtT'),ns=document.getElementById('nxtS');
+  if(nt&&nx){nt.textContent=fmt(nx);ns.textContent=nx.emoji+' '+nx.name;}
+  else if(nt){nt.textContent='All done! 🎉';ns.textContent='Amazing work, مييم! 🌟';}
+}
+
+function fireAlarm(s){
+  playChime();
+  document.getElementById('pEm').textContent=s.emoji;
+  document.getElementById('pTit').textContent=s.name;
+  document.getElementById('pTm').textContent='⏰ '+to12(isWeekend()&&s.timeW?s.timeW:s.time);
+  const m=document.getElementById('pMsg');
+  m.textContent=s.motiv;m.className='pmsg '+(s.lang==='ar'?'ar':'en');
+  document.getElementById('popup').classList.add('show');
+  if(navigator.vibrate)navigator.vibrate([300,100,300,100,300]);
+  window._currentAlarm=s;
+}
+
+function dismiss(){
+  document.getElementById('popup').classList.remove('show');
+  if(window._currentAlarm)checked[window._currentAlarm.id]=true;
+  save();updateProgress();
+  if(document.getElementById('pg-today').classList.contains('on'))renderToday();
+}
+function snooze(){
+  document.getElementById('popup').classList.remove('show');
+  const s=window._currentAlarm;if(!s)return;
+  if(snoozeId)clearTimeout(snoozeId);
+  snoozeId=setTimeout(()=>fireAlarm(s),5*60*1000);
+  showToast('😴 Snoozed 5 min — يلا يا مييم!');
+}
+
+function playChime(){
+  try{
+    const ctx=new(window.AudioContext||window.webkitAudioContext)();
+    [[523,.0],[659,.18],[784,.36],[1047,.54]].forEach(([f,d])=>{
+      const o=ctx.createOscillator(),g=ctx.createGain();
+      o.connect(g);g.connect(ctx.destination);o.type='sine';o.frequency.value=f;
+      const t=ctx.currentTime+d;
+      g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.25,t+.05);
+      g.gain.exponentialRampToValueAtTime(.001,t+.5);
+      o.start(t);o.stop(t+.55);
+    });
+  }catch(e){}
+}
+
+function updateDate(){
+  const d=new Date();
+  const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const badges={4:'🌸 Rest Day',5:'🎉 Weekend',6:'🎉 Weekend'};
+  document.getElementById('dpill').textContent=
+    days[d.getDay()]+' '+d.getDate()+' '+months[d.getMonth()]+
+    (badges[d.getDay()]?' '+badges[d.getDay()]:'');
+}
+
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('sw.js',{scope:'./'})
+      .catch(e=>console.log('SW:',e));
+  });
+}
+
+load();updateDate();renderToday();
+setInterval(checkAlarms,30000);setInterval(updateDate,60000);checkAlarms();
+</script>
+</body>
+</html>
